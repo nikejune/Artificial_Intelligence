@@ -61,11 +61,11 @@ int main(int argc, const char * argv[]) {
 		return -1;
 	}
 	string inputFileName = argv[1];
-	ifstream in(inputFileName);
+	ifstream in(inputFileName.c_str());
 	size_t pos = inputFileName.find("input.txt");
 	string outputFileName = inputFileName.substr(0, pos);
 	outputFileName += "output.txt";
-	ofstream off(outputFileName);
+	ofstream off(outputFileName.c_str());
 
 	if (in.is_open()) {
 		in >> ROW;
@@ -317,7 +317,13 @@ int ASS(int &R, int &C)
 		tmp_C = C;
 		if (Go[i](tmp_R, tmp_C) == 1) {
 
-			tmp_pqElement = { tmp_R, tmp_C, R,C,i, walk, HU_MATRIX[tmp_R][tmp_C] + A_MATRIX[tmp_R][tmp_C] };
+			tmp_pqElement.row = tmp_R;
+			tmp_pqElement.col = tmp_C;
+			tmp_pqElement.ex_row = R;
+			tmp_pqElement.ex_col = C;
+			tmp_pqElement.dir = i;
+			tmp_pqElement.distance = walk;
+			tmp_pqElement.hu = HU_MATRIX[tmp_R][tmp_C] + A_MATRIX[tmp_R][tmp_C];
 			PQ.push(tmp_pqElement);
 			//			trace_MATRIX[tmp_R][tmp_C] = make_pair(R, C);
 		}
@@ -361,13 +367,25 @@ int ASS(int &R, int &C)
 			int gogo = Go[i](tmp_R, tmp_C);
 			//  if(Go[i](tmp_R,tmp_C) == 1){
 			if (gogo == 1) {
-				tmp_pqElement = { tmp_R, tmp_C, cur_R,cur_C,i, cur_walk - 1, HU_MATRIX[tmp_R][tmp_C] + A_MATRIX[tmp_R][tmp_C] };
+				tmp_pqElement.row = tmp_R;
+				tmp_pqElement.col = tmp_C;
+				tmp_pqElement.ex_row = cur_R;
+				tmp_pqElement.ex_col = cur_C;
+				tmp_pqElement.dir = i;
+				tmp_pqElement.distance = cur_walk -1 ;
+				tmp_pqElement.hu = HU_MATRIX[tmp_R][tmp_C] + A_MATRIX[tmp_R][tmp_C];
 				PQ.push(tmp_pqElement);
 		
 			}
 			else if ((gogo == -1) && (visits[tmp_R][tmp_C] < cur_walk - 1)) {
-
-				tmp_pqElement = { tmp_R, tmp_C, cur_R,cur_C,i, cur_walk - 1, HU_MATRIX[tmp_R][tmp_C] + A_MATRIX[tmp_R][tmp_C] };
+				tmp_pqElement.row = tmp_R;
+				tmp_pqElement.col = tmp_C;
+				tmp_pqElement.ex_row = cur_R;
+				tmp_pqElement.ex_col = cur_C;
+				tmp_pqElement.dir = i;
+				tmp_pqElement.distance = cur_walk -1 ;
+				tmp_pqElement.hu = HU_MATRIX[tmp_R][tmp_C] + A_MATRIX[tmp_R][tmp_C];
+			
 				PQ.push(tmp_pqElement);
 		
 			}

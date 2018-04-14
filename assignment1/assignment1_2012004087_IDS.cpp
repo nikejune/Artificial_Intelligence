@@ -51,11 +51,11 @@ int main(int argc, const char * argv[]) {
 		return -1;
 	}
 	string inputFileName = argv[1];
-	ifstream in(inputFileName);
+	ifstream in(inputFileName.c_str());
 	size_t pos = inputFileName.find("input.txt");
 	string outputFileName = inputFileName.substr(0,pos);
 	outputFileName += "output.txt";
-	ofstream off(outputFileName);
+	ofstream off(outputFileName.c_str());
 
 	if (in.is_open()) {
 		in >> ROW;
@@ -241,7 +241,10 @@ pair<int, int> IDS(int& R, int& C)
 			tmp_R = cur_R;
 			tmp_C = cur_C;
 			if (Go[i](tmp_R, tmp_C)) {
-				tmpStackElement = { tmp_R, tmp_C, i, cur_limit - 1 };
+				tmpStackElement.row = tmp_R;
+				tmpStackElement.col = tmp_C;
+				tmpStackElement.dir = i;
+				tmpStackElement.limit = cur_limit -1;
 				S.push(tmpStackElement);
 				trace_MATRIX[tmp_R][tmp_C] = make_pair(R, C);
 			}
@@ -277,7 +280,10 @@ pair<int, int> IDS(int& R, int& C)
 					tmp_C = cur_C;
 					int gogo = Go[i](tmp_R, tmp_C);
 					if (gogo == 1 || (gogo == -1 && cur_limit > visits[tmp_R][tmp_C])) {
-						tmpStackElement = { tmp_R, tmp_C, i, cur_limit - 1 };
+						tmpStackElement.row = tmp_R;
+						tmpStackElement.col = tmp_C;
+						tmpStackElement.dir = i;
+						tmpStackElement.limit = cur_limit - 1;
 						S.push(tmpStackElement);
 						trace_MATRIX[tmp_R][tmp_C] = make_pair(cur_R, cur_C);
 					
